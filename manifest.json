@@ -1,0 +1,20 @@
+{
+"name":"Veritas",
+"version":"1.0",
+"manifest_version":2,
+"description":"Fights fake news by verifying sources and fact checking statements.",
+
+"browser_action":{
+    "default_title":"Veritas",
+    "default_icon":"news.png",
+    "default_popup": "popup.html"
+},
+
+"content_scripts":[
+        {
+        "matches": ["<all_urls>"],
+        "js":["jquery-3.1.1.min.js","scraper.js"],
+        "run_at": "document_end"
+        }
+    ]
+}
