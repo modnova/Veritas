@@ -82,5 +82,6 @@ $.fn.scrollEnd = function(callback, timeout) {
 // how to call it (with a 1000ms timeout):
 $(window).scrollEnd(function(){
     //alert('stopped scrolling');
+    feed.clear();
     scrape();
 }, 1000);
