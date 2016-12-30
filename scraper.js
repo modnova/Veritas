@@ -1,45 +1,57 @@
-/*Importany Article Information
+/*
+Importany Article Information
 -------------------------------
-1:title
-2:link
-3:descr
-4:website
-5:author
-6:caption
+0:title
+1:link
+2:descr
+3:website
 */
 
 //Set of arrays containing all of the article information on a page
-var feed=new Set();
+var feed = new Set();
 
-function scrape(){
-  page = document.getElementsByClassName('mbs _6m6 _2cnj _5s6c');
-  for(var i=0;i<page.length;i++)
+//Gets info then puts it into array then puts into Set
+function scrape() {
+
+  //Type: HTMLCollection
+  //Represents: Sections of the Cards that are news articles
+  cards = document.getElementsByClassName('_6m3 _--6');
+
+  console.log(cards);
+
+  for(var i=0;i<cards.length;i++)
   {
-    //Info array
-    var info=new Array(6);
-    var article=page[i];
+    //Stores the information in an array
+    var info = new Array(4);
 
-    var title=article.querySelector("a").text;
-    info[0]=title;
+    //Title
+    info[0] = cards[i].childNodes[0].innerText;
 
-    var link=article.querySelector("a").href;
-    info[1]=link;
+    //link
+    if(cards[i].nextSibling.href.includes("https://l.facebook.com/l.php?u=") || cards[i].nextSibling.href.includes("http://l.facebook.com/l.php?u=")) {
+      var Fburl = cards[i].nextSibling.href;
+      Fburl = Fburl.replace("https://l.facebook.com/l.php?u=", "").replace("http://l.facebook.com/l.php?u=", "").replace(/%3A/gi, ":").replace(/%F/gi, "/").replace(/%2F/gi, "/");
+      Fburl = Fburl.substring(0,Fburl.indexOf("&h="));
+      info[1] = Fburl;
+    }
+    else
+      info[1] = cards[i].nextSibling.href;
 
-    var descr=document.getElementsByClassName("_6m7 _3bt9")[i].textContent;
-    info[2]=descr;
+    //Description
+    if(cards[i].childNodes[1].className.includes("hidden_elem"))
+      info[2] = null;
+    else
+      info[2] = cards[i].childNodes[1].innerText;
 
-    var website=document.getElementsByClassName("_6lz _6mb ellipsis")[i].textContent;
-    info[3]=website;
+    //website
+    info[3] = cards[i].lastChild.lastElementChild.firstElementChild.firstChild.data;
 
-    var author=document.getElementsByClassName("_4l5i fsm fwn fcg")[i];
-    //info[4]=author;
-    console.log(author);
-
-
-
-    if(!feed.has(info))
+    if(!feed.has(info)) {
       feed.add(info);
+    }
   }
+
+  console.log(feed);
 
 }
 
@@ -48,7 +60,7 @@ $(document).ready(function(){
   scrape();
 });
 
-
 $(window).on('scroll', function() {
+  feed.clear();
   scrape();
 });
