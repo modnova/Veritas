@@ -28,7 +28,7 @@ function scrape() {
     info[0] = cards[i].childNodes[0].innerText;
 
     //link
-    if(cards[i].nextSibling!=null)
+    if(cards[i].nextSibling!==null)
     {
       if(cards[i].nextSibling.href.includes("https://l.facebook.com/l.php?u=") || cards[i].nextSibling.href.includes("http://l.facebook.com/l.php?u="))
       {
@@ -52,7 +52,8 @@ function scrape() {
       info[2] = cards[i].childNodes[1].innerText;
 
     //website
-    info[3] = cards[i].lastChild.lastElementChild.firstElementChild.firstChild.data;
+    if(cards[i].lastChild.lastElementChild.firstElementChild.firstChild!==null)
+      info[3] = cards[i].lastChild.lastElementChild.firstElementChild.firstChild.data;
 
     if(!feed.has(info)) {
       feed.add(info);
@@ -82,5 +83,6 @@ $.fn.scrollEnd = function(callback, timeout) {
 // how to call it (with a 1000ms timeout):
 $(window).scrollEnd(function(){
     //alert('stopped scrolling');
+    feed.clear();
     scrape();
 }, 1000);
