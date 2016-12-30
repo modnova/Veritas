@@ -28,7 +28,7 @@ function scrape() {
     info[0] = cards[i].childNodes[0].innerText;
 
     //link
-    if(cards[i].nextSibling!=null)
+    if(cards[i].nextSibling !== null)
     {
       if(cards[i].nextSibling.href.includes("https://l.facebook.com/l.php?u=") || cards[i].nextSibling.href.includes("http://l.facebook.com/l.php?u="))
       {
@@ -37,8 +37,8 @@ function scrape() {
         Fburl = Fburl.substring(0,Fburl.indexOf("&h="));
         info[1] = Fburl;
       }
-    else
-      info[1] = cards[i].nextSibling.href;
+      else
+        info[1] = cards[i].nextSibling.href;
     }
     else
       info[1]=null;
