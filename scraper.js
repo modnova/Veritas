@@ -28,14 +28,22 @@ function scrape() {
     info[0] = cards[i].childNodes[0].innerText;
 
     //link
-    if(cards[i].nextSibling.href.includes("https://l.facebook.com/l.php?u=") || cards[i].nextSibling.href.includes("http://l.facebook.com/l.php?u=")) {
-      var Fburl = cards[i].nextSibling.href;
-      Fburl = Fburl.replace("https://l.facebook.com/l.php?u=", "").replace("http://l.facebook.com/l.php?u=", "").replace(/%3A/gi, ":").replace(/%F/gi, "/").replace(/%2F/gi, "/");
-      Fburl = Fburl.substring(0,Fburl.indexOf("&h="));
-      info[1] = Fburl;
-    }
+    if(cards[i].nextSibling!=null)
+    {
+      if(cards[i].nextSibling.href.includes("https://l.facebook.com/l.php?u=") || cards[i].nextSibling.href.includes("http://l.facebook.com/l.php?u="))
+      {
+        var Fburl = cards[i].nextSibling.href;
+        Fburl = Fburl.replace("https://l.facebook.com/l.php?u=", "").replace("http://l.facebook.com/l.php?u=", "").replace(/%3A/gi, ":").replace(/%F/gi, "/").replace(/%2F/gi, "/");
+        Fburl = Fburl.substring(0,Fburl.indexOf("&h="));
+        info[1] = Fburl;
+      }
     else
       info[1] = cards[i].nextSibling.href;
+    }
+    else
+      info[1]=null;
+
+
 
     //Description
     if(cards[i].childNodes[1].className.includes("hidden_elem"))
@@ -60,7 +68,19 @@ $(document).ready(function(){
   scrape();
 });
 
-$(window).on('scroll', function() {
-  feed.clear();
-  scrape();
-});
+//Function that detects somebody scrolling and stop scrolling
+$.fn.scrollEnd = function(callback, timeout) {
+  $(this).scroll(function(){
+    var $this = $(this);
+    if ($this.data('scrollTimeout')) {
+      clearTimeout($this.data('scrollTimeout'));
+    }
+    $this.data('scrollTimeout', setTimeout(callback,timeout));
+  });
+};
+
+// how to call it (with a 1000ms timeout):
+$(window).scrollEnd(function(){
+    //alert('stopped scrolling');
+    scrape();
+}, 1000);
