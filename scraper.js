@@ -6,18 +6,44 @@ Importany Article Information
 2:descr
 3:website
 */
-
+//Current url of the page used to determine which scrape to use
+var currentUrl=""+window.location.href;
+currentUrl=currentUrl.toLowerCase();
+console.log(currentUrl);
 //Set of arrays containing all of the article information on a page
 var feed = new Set();
 
+function redditScrape()
+{
+  //master html table of all the cards
+ var siteTable = document.getElementById('siteTable');
+
+ //Each individual cards for the link
+ var cards = siteTable.getElementsByClassName('thing');
+ console.log(cards);
+
+ //loop is weird because cards doesnt have a length and i increment by 2 because theres a spacer between each card
+ for(var i=0;i<8;i=i+2)
+  {
+    //array to hold info
+    var info = new Array(4);
+    //current card
+    var card = cards[i];
+    //trying to get the title
+    console.log(document.getElementsByClassName('title')[0].innerText);
+    var title = card;
+    console.log(document.getElementsByClassName('title may-blank loggedin outbound')[j].innerText);
+  }
+}
+
 //Gets info then puts it into array then puts into Set
-function scrape() {
+function fbScrape() {
 
   //Type: HTMLCollection
   //Represents: Sections of the Cards that are news articles
-  cards = document.getElementsByClassName('_6m3 _--6');
+  var cards = document.getElementsByClassName('_6m3 _--6');
 
-  console.log(cards);
+  //console.log(cards);
 
   for(var i=0;i<cards.length;i++)
   {
@@ -29,6 +55,7 @@ function scrape() {
 
     //link
     if(cards[i].nextSibling !== null)
+    if(cards[i].nextSibling!==null)
     {
       if(cards[i].nextSibling.href.includes("https://l.facebook.com/l.php?u=") || cards[i].nextSibling.href.includes("http://l.facebook.com/l.php?u="))
       {
@@ -52,7 +79,8 @@ function scrape() {
       info[2] = cards[i].childNodes[1].innerText;
 
     //website
-    info[3] = cards[i].lastChild.lastElementChild.firstElementChild.firstChild.data;
+    if(cards[i].lastChild.lastElementChild.firstElementChild.firstChild!==null)
+      info[3] = cards[i].lastChild.lastElementChild.firstElementChild.firstChild.data;
 
     if(!feed.has(info)) {
       feed.add(info);
@@ -65,7 +93,13 @@ function scrape() {
 
 
 $(document).ready(function(){
-  scrape();
+  //Current url of the page used to determine which scrape to use
+
+  if(currentUrl.includes("facebook"))
+    fbScrape();
+  else if(currentUrl.includes("reddit"))
+    redditScrape();
+
 });
 
 //Function that detects somebody scrolling and stop scrolling
@@ -82,6 +116,9 @@ $.fn.scrollEnd = function(callback, timeout) {
 // how to call it (with a 1000ms timeout):
 $(window).scrollEnd(function(){
     //alert('stopped scrolling');
-    feed.clear();
-    scrape();
+    if(currentUrl.includes("facebook"))
+      feed.clear();
+      fbScrape();
+    if(currentUrl.includes("reddit"))
+      redditScrape();
 }, 1000);
