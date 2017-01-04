@@ -16,23 +16,16 @@ var feed = new Set();
 function redditScrape()
 {
   //master html table of all the cards
- var siteTable = document.getElementById('siteTable');
-
- //Each individual cards for the link
- var cards = siteTable.getElementsByClassName('thing');
- console.log(cards);
-
+ var cards=document.getElementById('siteTable');
+ console.log(cards.getElementsByClassName('thing'));
+ cards=cards.getElementsByClassName('thing');
  //loop is weird because cards doesnt have a length and i increment by 2 because theres a spacer between each card
- for(var i=0;i<8;i=i+2)
+ for(var i=0;i<cards.length;i++)
   {
     //array to hold info
-    var info = new Array(4);
-    //current card
-    var card = cards[i];
-    //trying to get the title
-    console.log(document.getElementsByClassName('title')[0].innerText);
-    var title = card;
-    console.log(document.getElementsByClassName('title may-blank loggedin outbound')[j].innerText);
+    var info=new Array(4);
+    var title=cards[i].innerText;
+    console.log(title);
   }
 }
 
@@ -54,7 +47,6 @@ function fbScrape() {
     info[0] = cards[i].childNodes[0].innerText;
 
     //link
-    if(cards[i].nextSibling !== null)
     if(cards[i].nextSibling!==null)
     {
       if(cards[i].nextSibling.href.includes("https://l.facebook.com/l.php?u=") || cards[i].nextSibling.href.includes("http://l.facebook.com/l.php?u="))
@@ -64,8 +56,8 @@ function fbScrape() {
         Fburl = Fburl.substring(0,Fburl.indexOf("&h="));
         info[1] = Fburl;
       }
-      else
-        info[1] = cards[i].nextSibling.href;
+    else
+      info[1] = cards[i].nextSibling.href;
     }
     else
       info[1]=null;
@@ -116,9 +108,9 @@ $.fn.scrollEnd = function(callback, timeout) {
 // how to call it (with a 1000ms timeout):
 $(window).scrollEnd(function(){
     //alert('stopped scrolling');
+    feed.clear();
     if(currentUrl.includes("facebook"))
-      feed.clear();
       fbScrape();
-    if(currentUrl.includes("reddit"))
+    else if(currentUrl.includes("reddit"))
       redditScrape();
 }, 1000);
