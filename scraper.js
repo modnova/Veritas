@@ -13,8 +13,14 @@ console.log(currentUrl);
 //Set of arrays containing all of the article information on a page
 var feed = new Set();
 
-function redditScrape()
-{
+function twitterScrape(){
+  var tweets=documents.getElementsByClassName('stream');
+  console.log(tweets);
+
+
+
+}
+function redditScrape(){
   //master html table of all the cards
  var cards=document.getElementById('siteTable').getElementsByClassName('thing');
  //console.log(cards);
@@ -120,6 +126,8 @@ $(document).ready(function(){
     fbScrape();
   else if(currentUrl.includes("reddit"))
     redditScrape();
+  else if(currentUrl.includes("twitter"))
+    twitterScrape();
 
 });
 
@@ -142,4 +150,6 @@ $(window).scrollEnd(function(){
       fbScrape();
     else if(currentUrl.includes("reddit"))
       redditScrape();
+    else if(currentUrl.includes("twitter"))
+      twitterScrape();
 }, 1000);
