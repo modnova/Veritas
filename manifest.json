@@ -6,7 +6,7 @@
 
 "browser_action":{
     "default_title":"Veritas",
-    "default_icon":"news.png",
+    "default_icon":"veritas_icon.png",
     "default_popup": "popup.html"
 },
 
