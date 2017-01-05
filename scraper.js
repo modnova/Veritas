@@ -16,17 +16,46 @@ var feed = new Set();
 function redditScrape()
 {
   //master html table of all the cards
- var cards=document.getElementById('siteTable');
- console.log(cards.getElementsByClassName('thing'));
- cards=cards.getElementsByClassName('thing');
- //loop is weird because cards doesnt have a length and i increment by 2 because theres a spacer between each card
- for(var i=0;i<cards.length;i++)
+ var cards=document.getElementById('siteTable').getElementsByClassName('thing');
+ //console.log(cards);
+ for(var i = 0; i < cards.length ; i++)
   {
     //array to hold info
     var info=new Array(4);
-    var title=cards[i].innerText;
-    console.log(title);
-  }
+    //console.log(cards[i]);
+    var text=cards[i].innerText;
+    //console.log(text);
+    var title="";
+    var website=text.substring(text.indexOf('(')+1,text.indexOf(')'));
+    //Deletes irrelevant lines
+    text=text.substring(text.indexOf("\n") + 1);
+    text=text.substring(text.indexOf("\n") + 1);
+    //Loop to populate title leaving out the last part
+    for(var j=0;j<text.length;j++)
+      {
+          var ch=text.charAt(j);
+
+              if(ch=='(')
+              {
+                  break;
+              }
+              else
+                title=title+ch;
+      }
+    info[0]=title;
+    //console.log(title);
+    var link=cards[i].getAttribute("data-url");
+    //console.log(cards[i].getAttribute("data-url"));
+    info[1]=link;
+    //There's no descriptions for reddit posts
+    info[2]=null;
+    info[3]=website;
+    //console.log(website);
+    feed.add(info);
+    }
+    console.log(feed);
+
+
 }
 
 //Gets info then puts it into array then puts into Set
