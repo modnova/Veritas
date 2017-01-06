@@ -14,9 +14,16 @@ console.log(currentUrl);
 var feed = new Set();
 
 function twitterScrape(){
-  var tweets=documents.getElementsByClassName('stream');
-  console.log(tweets);
+  var tweets=document.getElementsByClassName('stream-items js-navigable-stream');
+  //console.log(tweets);
+  var cards=tweets[0].childNodes;
+  //console.log(cards);
+  for(var i=0;i<cards.length;i++){
+    var tweet=cards[i];
+    console.log(tweet);
+    console.log(tweet.getElementsByClassName('TweetTextSize  js-tweet-text tweet-text'));
 
+  }
 
 
 }

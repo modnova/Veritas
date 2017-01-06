@@ -9,6 +9,9 @@
     "default_icon":"veritas_icon.png",
     "default_popup": "popup.html"
 },
+"icons": {
+               "128":"veritas_icon_128.png" 
+       },
 
 "content_scripts":[
         {
