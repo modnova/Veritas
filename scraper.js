@@ -9,7 +9,7 @@ Importany Article Information
 //Current url of the page used to determine which scrape to use
 var currentUrl=""+window.location.href;
 currentUrl=currentUrl.toLowerCase();
-console.log(currentUrl);
+//console.log(currentUrl);
 //Set of arrays containing all of the article information on a page
 var feed = new Set();
 
@@ -19,11 +19,19 @@ function twitterScrape(){
   var cards=tweets[0].childNodes;
   //console.log(cards);
   for(var i=0;i<cards.length;i++){
+    var info=new Array(4);
     var tweet=cards[i];
-    console.log(tweet);
-    console.log(tweet.getElementsByClassName('TweetTextSize  js-tweet-text tweet-text'));
-
+    //console.log(tweet);
+    console.log(document.getElementsByClassName('js-tweet-text-container')[i].innerText);
+   //info[0]=document.getElementsByClassName('js-tweet-text-container')[i];
+    var text=document.getElementsByClassName('js-tweet-text-container')[i].innerText;
+    info[0]=text;
+    info[1]=null;
+    info[2]=null;
+    info[3]=null;
+    feed.add(info);
   }
+  console.log(feed);
 
 
 }
