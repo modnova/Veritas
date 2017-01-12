@@ -6,33 +6,41 @@ Importany Article Information
 2:descr
 3:website
 */
+
+
 //Current url of the page used to determine which scrape to use
 var currentUrl=""+window.location.href;
 currentUrl=currentUrl.toLowerCase();
 //console.log(currentUrl);
 //Set of arrays containing all of the article information on a page
-var feed = new Set();
+let feed = new Set();
+
 
 function twitterScrape(){
   var tweets=document.getElementsByClassName('stream-items js-navigable-stream');
   //console.log(tweets);
   var cards=tweets[0].childNodes;
   //console.log(cards);
-  for(var i=0;i<cards.length;i++){
+  for(var i=1;i<document.getElementsByClassName('card2 js-media-container').length;i++){
     var info=new Array(4);
     var tweet=cards[i];
     //console.log(tweet);
-    console.log(document.getElementsByClassName('js-tweet-text-container')[i].innerText);
+    //console.log(document.getElementsByClassName('js-tweet-text-container')[i].innerText);
    //info[0]=document.getElementsByClassName('js-tweet-text-container')[i];
     var text=document.getElementsByClassName('js-tweet-text-container')[i].innerText;
-    info[0]=text;
+    //info[0]=text;
     info[1]=null;
     info[2]=null;
-    info[3]=null;
+    // js-openLink u-block TwitterCardsGrid-col--12 TwitterCard-container TwitterCard-container--clickable SummaryCard--large
+    //TwitterCardsGrid-col--12 TwitterCardsGrid-col--spacerBottom CardContent
+    //SummaryCard-content
+    info[3]=document.getElementsByClassName('card2 js-media-container')[i];
+
+    //console.log(info[3]);
     feed.add(info);
+
   }
   console.log(feed);
-
 
 }
 function redditScrape(){
@@ -76,7 +84,6 @@ function redditScrape(){
     }
     console.log(feed);
 
-
 }
 
 //Gets info then puts it into array then puts into Set
@@ -95,6 +102,7 @@ function fbScrape() {
 
     //Title
     info[0] = cards[i].childNodes[0].innerText;
+
 
     //link
     if(cards[i].nextSibling!==null)
@@ -133,16 +141,33 @@ function fbScrape() {
 
 }
 
+function determineValidity(){
+  //loop through set
+  for (let value of feed) {
+    $.get(
+    "https://veritas1.herokuapp.com/",
+    {paramOne : 'GET', paramTwo : "AnonNews.co"},
+    function(data) {
+       alert('page content: ' + data);
+    }
+);
+  }
 
+}
 $(document).ready(function(){
-  //Current url of the page used to determine which scrape to use
-
-  if(currentUrl.includes("facebook"))
+//fills the feed
+  if(currentUrl.includes("facebook")){
     fbScrape();
-  else if(currentUrl.includes("reddit"))
+  }
+
+  else if(currentUrl.includes("reddit")){
     redditScrape();
-  else if(currentUrl.includes("twitter"))
+  }
+  else if(currentUrl.includes("twitter")){
     twitterScrape();
+  }
+  //
+  determineValidity();
 
 });
 
@@ -161,10 +186,13 @@ $.fn.scrollEnd = function(callback, timeout) {
 $(window).scrollEnd(function(){
     //alert('stopped scrolling');
     feed.clear();
-    if(currentUrl.includes("facebook"))
+    if(currentUrl.includes("facebook")){
       fbScrape();
-    else if(currentUrl.includes("reddit"))
-      redditScrape();
-    else if(currentUrl.includes("twitter"))
+    }
+    else if(currentUrl.includes("reddit")){
+        redditScrape();
+    }
+    else if(currentUrl.includes("twitter")){
       twitterScrape();
+    }
 }, 1000);
