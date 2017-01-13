@@ -146,10 +146,10 @@ function fbScrape() {
 function determineValidity(){
   //loop through set
   for (let value of feed) {
-    var link=value[1]
-    $.getJSON('https://veritas1.herokuapp.com/', {foo: link}, function(data, jqXHR){
+    var link=value[1];
+    $.getJSON('https://veritas1.herokuapp.com/content/get/', {url: link}, function(data, jqXHR){
     // do something with response
-    console.log(data);
+    console.log(data[0]);
     });
 
   }
