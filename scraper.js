@@ -6,7 +6,7 @@ Importany Article Information
 2:descr
 3:website
 4:verified/unverified
-5:This attribute will be used to determine whether a card has been evaluated or not  true / false
+//5:This attribute will be used to determine whether a card has been evaluated or not  true / false
 */
 
 
@@ -24,7 +24,7 @@ function twitterScrape(){
   var cards=tweets[0].childNodes;
   //console.log(cards);
   for(var i=1;i<document.getElementsByClassName('card2 js-media-container').length;i++){
-    var info=new Array(4);
+    var info=new Array(5);
     var tweet=cards[i];
     //console.log(tweet);
     //console.log(document.getElementsByClassName('js-tweet-text-container')[i].innerText);
@@ -52,7 +52,7 @@ function redditScrape(){
  for(var i = 0; i < cards.length ; i++)
   {
     //array to hold info
-    var info=new Array(4);
+    var info=new Array(5);
     //console.log(cards[i]);
     var text=cards[i].innerText;
     //console.log(text);
@@ -100,7 +100,7 @@ function fbScrape() {
   for(var i=0;i<cards.length;i++)
   {
     //Stores the information in an array
-    var info = new Array(4);
+    var info = new Array(5);
 
     //Title
     info[0] = cards[i].childNodes[0].innerText;
@@ -139,109 +139,74 @@ function fbScrape() {
     }
   }
 
-  console.log(feed);
+  //console.log(feed);
 
 }
 
 function determineValidity(){
   //loop through set
   for (let value of feed) {
-    $.get("https://veritas1.herokuapp.com/", function(data){
-      alert("Data: " + data);
-        //Make button verified
-      if(data == "verified"){
-        value[4]="verified"
-      }
-      //Make button unverified
-      else {
-        value[4]="unverified"
-      }
+    var link=value[1];
+    $.getJSON('https://veritas1.herokuapp.com/content/get/', {url: link}, function(data, jqXHR){
+    // populate the last field in the array
+      value[4] = (data.response);
+    //console.log(data.response);
     });
+
   }
 }
 
-function buttonMakerFb(){
+function HighlighterFb(){
+  console.log(feed);
   var cards = document.getElementsByClassName('_6m3 _--6');
-   for(var i = 0; i < cards.length; i++){
-     //button
-	 var x = document.createElement("BUTTON");
-     x.style.background = "#66cc00";
-     x.style.color = "white";
-	 x.style.font = "Veritas";
-	 x.style.height = "23px";
-	 x.style.depth = "0px";
-     var text = "Verified";
-     x.append(text);
-	 
-     x.id = "button"+i
-     if($('#button'+i).length == 0){
+  var i = 0;
+  for(let value of feed){
+    var x = document.createElement("H1");
+    var title = cards[i].childNodes[0].innerText;
+    cards[i].childNodes[0].innerText="";
+    x.append("" + title);
+    x.id = 'id' + i;
+    //Verified just gets veritas font. Subtle
+    //console.log("validity: " + value[4]);
+    for(var i = 0;i < value.length; i++){
+      console.log(value[i]);
+    }
+    if("" + value[5] === "verified")
+        x.style.font = "veritas";
+    //Not verified gets red highlight
+    else if("" + value[5] === "unverified")
+        x.style.background = "red";
+    if($('#id' + i).length == 0){
         cards[i].childNodes[0].append(x);
      }
-
-   }
+    //console.log(title);
+    i++;
+    }
 }
 
-function buttonMakerReddit(){
-	//var cards = document.getElementsByClassName('_6m3 _--6'); ---- taken from buttonMakerFb() as placeholder
-	//for(var i = 0; i < cards.length; i++){       -------- placeholder
-		
-	//button
-	var x = document.createElement("BUTTON");
-     x.style.background = "#66cc00";
-     x.style.color = "white";
-	 x.style.font = "Veritas";
-	 x.style.height = "23px";
-	 x.style.depth = "0px";
-     var text = "Verified";
-     x.append(text);
-	 
-     x.id = "button"+i
-     if($('#button'+i).length == 0){
-        cards[i].childNodes[0].append(x);
+function highlighterReddit(){
 
 }
-	//} ---- end of placeholder
-}
+function highlighterTwitter(){
 
-function buttonMakerTwitter(){
-
-//var cards = document.getElementsByClassName('_6m3 _--6'); ---- taken from buttonMakerFb() as placeholder
-	//for(var i = 0; i < cards.length; i++){       -------- placeholder
-		
-	//button
-	var x = document.createElement("BUTTON");
-     x.style.background = "#66cc00"; //shade of green
-     x.style.color = "white";
-	 x.style.font = "Veritas";
-	 x.style.height = "23px";
-	 x.style.depth = "0px";
-     var text = "Verified";
-     x.append(text);
-	 
-     x.id = "button"+i
-     if($('#button'+i).length == 0){
-        cards[i].childNodes[0].append(x);
-
-}
-	//} ---- end of placeholder
 }
 $(document).ready(function(){
 //fills the feed
   if(currentUrl.includes("facebook")){
     fbScrape();
     determineValidity();
-    buttonMakerFb();
+    //highlighterFb();
   }
 
   else if(currentUrl.includes("reddit")){
     redditScrape();
     determineValidity();
-    buttonMakerReddit();
+    //highlighterReddit();
   }
   else if(currentUrl.includes("twitter")){
     twitterScrape();
     determineValidity();
-    buttonMakerTwitter();
+    //highlighterTwitter();
   }
   //
 
@@ -267,17 +232,17 @@ $(window).scrollEnd(function(){
     if(currentUrl.includes("facebook")){
       fbScrape();
       determineValidity();
-      buttonMakerFb();
+      HighlighterFb();
     }
 
     else if(currentUrl.includes("reddit")){
       redditScrape();
       determineValidity();
-      buttonMakerReddit();
+      //buttonMakerReddit();
     }
     else if(currentUrl.includes("twitter")){
       twitterScrape();
       determineValidity();
-      buttonMakerTwitter();
+      //buttonMakerTwitter();
     }
 }, 1000);
