@@ -164,10 +164,11 @@ function buttonMakerFb(){
   var cards = document.getElementsByClassName('_6m3 _--6');
    for(var i = 0; i < cards.length ; i++){
      var x = document.createElement("BUTTON");
-     x.style.background = "green";
+     x.style.background = "#66cc00";
      x.style.color = "white";
 	 x.style.font = "Veritas";
 	 x.style.height = "23px";
+	 x.style.depth = "0px";
      var text = "Verified";
      x.append(text);
 	 
