@@ -5,6 +5,8 @@ Importany Article Information
 1:link
 2:descr
 3:website
+4:verified/unverified
+5:This attribute will be used to determine whether a card has been evaluated or not  true / false
 */
 
 
@@ -144,30 +146,55 @@ function fbScrape() {
 function determineValidity(){
   //loop through set
   for (let value of feed) {
-    $.get(
-    "https://veritas1.herokuapp.com/",
-    {paramOne : 'GET', paramTwo : "AnonNews.co"},
-    function(data) {
-       alert('page content: ' + data);
-    }
-);
+    $.get("https://veritas1.herokuapp.com/", function(data){
+      alert("Data: " + data);
+        //Make button verified
+      if(data == "verified"){
+        value[4]="verified"
+      }
+      //Make button unverified
+      else {
+        value[4]="unverified"
+      }
+    });
   }
+}
+
+function buttonMakerFb(){
+  var cards = document.getElementsByClassName('_6m3 _--6');
+   for(var i = 0; i < cards.length ; i++){
+     var x = document.createElement("BUTTON");
+     
+     cards[i].childNodes[0].append(x);
+   }
+}
+
+function buttonMakerReddit(){
+
+}
+function buttonMakerTwitter(){
 
 }
 $(document).ready(function(){
 //fills the feed
   if(currentUrl.includes("facebook")){
     fbScrape();
+    determineValidity();
+    buttonMakerFb();
   }
 
   else if(currentUrl.includes("reddit")){
     redditScrape();
+    determineValidity();
+    buttonMakerReddit();
   }
   else if(currentUrl.includes("twitter")){
     twitterScrape();
+    determineValidity();
+    buttonMakerTwitter();
   }
   //
-  determineValidity();
+
 
 });
 
@@ -186,13 +213,21 @@ $.fn.scrollEnd = function(callback, timeout) {
 $(window).scrollEnd(function(){
     //alert('stopped scrolling');
     feed.clear();
+
     if(currentUrl.includes("facebook")){
       fbScrape();
+      determineValidity();
+      buttonMakerFb();
     }
+
     else if(currentUrl.includes("reddit")){
-        redditScrape();
+      redditScrape();
+      determineValidity();
+      buttonMakerReddit();
     }
     else if(currentUrl.includes("twitter")){
       twitterScrape();
+      determineValidity();
+      buttonMakerTwitter();
     }
 }, 1000);
