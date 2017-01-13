@@ -164,6 +164,10 @@ function buttonMakerFb(){
   var cards = document.getElementsByClassName('_6m3 _--6');
    for(var i = 0; i < cards.length ; i++){
      var x = document.createElement("BUTTON");
+     x.style.background="red";
+     x.style.color="black"
+     var text="Unverified"
+     x.append(text);
      x.id="button"+i
      if($('#button'+i).length == 0){
         cards[i].childNodes[0].append(x);
