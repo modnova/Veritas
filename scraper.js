@@ -164,12 +164,13 @@ function buttonMakerFb(){
   var cards = document.getElementsByClassName('_6m3 _--6');
    for(var i = 0; i < cards.length ; i++){
      var x = document.createElement("BUTTON");
-	 x.style.background = "green";
-	 x.style.color = "red";
-	 //x.style.width = 14px;
+     x.style.background = "green";
+     x.style.color = "white"
+     var text = "Verified"
+     x.append(text);
 	 
-
-     x.id="button"+i
+	 
+     x.id = "button"+i
      if($('#button'+i).length == 0){
         cards[i].childNodes[0].append(x);
      }
