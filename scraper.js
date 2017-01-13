@@ -165,8 +165,10 @@ function buttonMakerFb(){
    for(var i = 0; i < cards.length ; i++){
      var x = document.createElement("BUTTON");
      x.style.background = "green";
-     x.style.color = "white"
-     var text = "Verified"
+     x.style.color = "white";
+	 x.style.font = "Veritas";
+	 x.style.height = "23px";
+     var text = "Verified";
      x.append(text);
 	 
 	 
