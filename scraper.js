@@ -162,8 +162,9 @@ function determineValidity(){
 
 function buttonMakerFb(){
   var cards = document.getElementsByClassName('_6m3 _--6');
-   for(var i = 0; i < cards.length ; i++){
-     var x = document.createElement("BUTTON");
+   for(var i = 0; i < cards.length; i++){
+     //button
+	 var x = document.createElement("BUTTON");
      x.style.background = "#66cc00";
      x.style.color = "white";
 	 x.style.font = "Veritas";
@@ -171,7 +172,6 @@ function buttonMakerFb(){
 	 x.style.depth = "0px";
      var text = "Verified";
      x.append(text);
-	 
 	 
      x.id = "button"+i
      if($('#button'+i).length == 0){
@@ -182,10 +182,48 @@ function buttonMakerFb(){
 }
 
 function buttonMakerReddit(){
+	//var cards = document.getElementsByClassName('_6m3 _--6'); ---- taken from buttonMakerFb() as placeholder
+	//for(var i = 0; i < cards.length; i++){       -------- placeholder
+		
+	//button
+	var x = document.createElement("BUTTON");
+     x.style.background = "#66cc00";
+     x.style.color = "white";
+	 x.style.font = "Veritas";
+	 x.style.height = "23px";
+	 x.style.depth = "0px";
+     var text = "Verified";
+     x.append(text);
+	 
+     x.id = "button"+i
+     if($('#button'+i).length == 0){
+        cards[i].childNodes[0].append(x);
 
 }
+	//} ---- end of placeholder
+}
+
 function buttonMakerTwitter(){
 
+//var cards = document.getElementsByClassName('_6m3 _--6'); ---- taken from buttonMakerFb() as placeholder
+	//for(var i = 0; i < cards.length; i++){       -------- placeholder
+		
+	//button
+	var x = document.createElement("BUTTON");
+     x.style.background = "#66cc00"; //shade of green
+     x.style.color = "white";
+	 x.style.font = "Veritas";
+	 x.style.height = "23px";
+	 x.style.depth = "0px";
+     var text = "Verified";
+     x.append(text);
+	 
+     x.id = "button"+i
+     if($('#button'+i).length == 0){
+        cards[i].childNodes[0].append(x);
+
+}
+	//} ---- end of placeholder
 }
 $(document).ready(function(){
 //fills the feed
