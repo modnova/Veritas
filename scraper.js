@@ -15,7 +15,7 @@ var currentUrl=""+window.location.href;
 currentUrl=currentUrl.toLowerCase();
 //console.log(currentUrl);
 //Set of arrays containing all of the article information on a page
-let feed = new Set();
+var feed = new Set();
 
 
 function twitterScrape(){
@@ -150,7 +150,8 @@ function determineValidity(){
     $.getJSON('https://veritas1.herokuapp.com/content/get/', {url: link}, function(data, jqXHR){
     // populate the last field in the array
       value[4] = (data.response);
-    //console.log(data.response);
+      console.log(typeof value[4]);
+      console.log(feed);
 
     });
 
@@ -158,10 +159,13 @@ function determineValidity(){
 }
 
 function HighlighterFb(){
-  console.log(feed);
+
   var cards = document.getElementsByClassName('_6m3 _--6');
   var i=0;
   for(let value of feed){
+    //console.log(typeof value[4]);
+    if(i >= cards.length)
+      break;
     var x = document.createElement("H1");
     var title=cards[i].childNodes[0].innerText;
     cards[i].childNodes[0].innerText="";
@@ -170,7 +174,7 @@ function HighlighterFb(){
     //Verified just gets veritas font. Subtle
     //console.log("validity: " + value[4]);
     for(var i=0;i<value.length;i++){
-      console.log(value[i]);
+      //console.log(value);
     }
     if("" + value[5] === "verified")
         x.style.font = "veritas";
