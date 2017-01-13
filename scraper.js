@@ -164,6 +164,14 @@ function buttonMakerFb(){
   var cards = document.getElementsByClassName('_6m3 _--6');
    for(var i = 0; i < cards.length ; i++){
      var x = document.createElement("BUTTON");
+	 var color = "#6666ff"; // blue for verified
+	 //document.getElementById("BUTTON").style.background = '#6666ff';
+	 //buttonColor(color);
+	 //document.getElementById("button").bgcolor="#6666ff";
+	// var sheet = document.createElement('style')
+	 //sheet.innerHTML = "div {border: 2px solid green; background-color: blue;}";
+	 //document.getElementById("BUTTON").body.appendChild(sheet);
+
      x.id="button"+i
      if($('#button'+i).length == 0){
         cards[i].childNodes[0].append(x);
@@ -171,6 +179,11 @@ function buttonMakerFb(){
 
    }
 }
+
+//function buttonColor(color)
+//	{
+//		x.color = color; //#6666ff - verified blue
+//	}
 
 function buttonMakerReddit(){
 
