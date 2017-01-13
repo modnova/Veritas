@@ -164,8 +164,8 @@ function buttonMakerFb(){
   var cards = document.getElementsByClassName('_6m3 _--6');
    for(var i = 0; i < cards.length ; i++){
      var x = document.createElement("BUTTON");
-     
-     cards[i].childNodes[0].append(x);
+     if($('x').length < 1)
+      cards[i].childNodes[0].append(x);
    }
 }
 
