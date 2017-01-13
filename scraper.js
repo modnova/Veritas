@@ -59,28 +59,28 @@ function redditScrape(){
     var title="";
     var website=text.substring(text.indexOf('(')+1,text.indexOf(')'));
     //Deletes irrelevant lines
-    text=text.substring(text.indexOf("\n") + 1);
-    text=text.substring(text.indexOf("\n") + 1);
+    text = text.substring(text.indexOf("\n") + 1);
+    text = text.substring(text.indexOf("\n") + 1);
     //Loop to populate title leaving out the last part
-    for(var j=0;j<text.length;j++)
+    for(var j = 0;j < text.length; j++)
       {
-          var ch=text.charAt(j);
+          var ch = text.charAt(j);
 
-              if(ch=='(')
+              if(ch == '(')
               {
                   break;
               }
               else
-                title=title+ch;
+                title = title+ch;
       }
-    info[0]=title;
+    info[0] = title;
     //console.log(title);
-    var link=cards[i].getAttribute("data-url");
+    var link = cards[i].getAttribute("data-url");
     //console.log(cards[i].getAttribute("data-url"));
-    info[1]=link;
+    info[1] = link;
     //There's no descriptions for reddit posts
-    info[2]=null;
-    info[3]=website;
+    info[2] = null;
+    info[3] = website;
     //console.log(website);
     feed.add(info);
     }
@@ -97,7 +97,7 @@ function fbScrape() {
 
   //console.log(cards);
 
-  for(var i=0;i<cards.length;i++)
+  for(var i = 0;i < cards.length; i++)
   {
     //Stores the information in an array
     var info = new Array(5);
@@ -107,7 +107,7 @@ function fbScrape() {
 
 
     //link
-    if(cards[i].nextSibling!==null)
+    if(cards[i].nextSibling !== null)
     {
       if(cards[i].nextSibling.href.includes("https://l.facebook.com/l.php?u=") || cards[i].nextSibling.href.includes("http://l.facebook.com/l.php?u="))
       {
