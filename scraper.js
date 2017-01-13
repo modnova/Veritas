@@ -148,16 +148,35 @@ function determineValidity(){
   for (let value of feed) {
     var link=value[1];
     $.getJSON('https://veritas1.herokuapp.com/content/get/', {url: link}, function(data, jqXHR){
-    // do something with response
-    console.log(data[0]);
+    // populate the last field in the array
+    value[5]=data.response;
+    //console.log(data.response);
+
+
     });
 
   }
 }
 
-function buttonMakerFb(){
+function HighlighterFb(){
   var cards = document.getElementsByClassName('_6m3 _--6');
-   for(var i = 0; i < cards.length ; i++){
+  for(var i = 0; i < cards.length ; i++){
+    var x = document.createElement("H1");
+    var title=cards[i].childNodes[0].innerText;
+    cards[i].childNodes[0].innerText="";
+    x.append("" + title);
+    x.id = 'id' + i;
+    //Verified just gets veritas font. Subtle
+    console.log(validity);
+    if(validity === "verified")
+        x.style.font = "veritas";
+    //Not verified gets red highlight
+    if(validity === "unverified")
+        x.style.background = "red";
+    if($('#id' + i).length == 0){
+        cards[i].childNodes[0].append(x);
+     }
+    console.log(title);
 
      }
 }
@@ -173,18 +192,18 @@ $(document).ready(function(){
   if(currentUrl.includes("facebook")){
     fbScrape();
     determineValidity();
-    buttonMakerFb();
+    HighlighterFb();
   }
 
   else if(currentUrl.includes("reddit")){
     redditScrape();
     determineValidity();
-    buttonMakerReddit();
+    //buttonMakerReddit();
   }
   else if(currentUrl.includes("twitter")){
     twitterScrape();
     determineValidity();
-    buttonMakerTwitter();
+    //buttonMakerTwitter();
   }
   //
 
@@ -210,17 +229,17 @@ $(window).scrollEnd(function(){
     if(currentUrl.includes("facebook")){
       fbScrape();
       determineValidity();
-      buttonMakerFb();
+      HighlighterFb();
     }
 
     else if(currentUrl.includes("reddit")){
       redditScrape();
       determineValidity();
-      buttonMakerReddit();
+      //buttonMakerReddit();
     }
     else if(currentUrl.includes("twitter")){
       twitterScrape();
       determineValidity();
-      buttonMakerTwitter();
+      //buttonMakerTwitter();
     }
 }, 1000);
