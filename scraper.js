@@ -146,34 +146,20 @@ function fbScrape() {
 function determineValidity(){
   //loop through set
   for (let value of feed) {
-    $.get("https://veritas1.herokuapp.com/", function(data){
-      alert("Data: " + data);
-        //Make button verified
-      if(data == "verified"){
-        value[4]="verified"
-      }
-      //Make button unverified
-      else {
-        value[4]="unverified"
-      }
+    var link=value[1]
+    $.getJSON('https://veritas1.herokuapp.com/', {foo: link}, function(data, jqXHR){
+    // do something with response
+    console.log(data);
     });
+
   }
 }
 
 function buttonMakerFb(){
   var cards = document.getElementsByClassName('_6m3 _--6');
    for(var i = 0; i < cards.length ; i++){
-     var x = document.createElement("BUTTON");
-     x.style.background="red";
-     x.style.color="black"
-     var text="Unverified"
-     x.append(text);
-     x.id="button"+i
-     if($('#button'+i).length == 0){
-        cards[i].childNodes[0].append(x);
-     }
 
-   }
+     }
 }
 
 function buttonMakerReddit(){
