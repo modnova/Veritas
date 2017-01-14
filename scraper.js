@@ -19,24 +19,24 @@ let feed = new Set();
 
 
 function twitterScrape(){
-  var tweets=document.getElementsByClassName('stream-items js-navigable-stream');
+  var tweets = document.getElementsByClassName('stream-items js-navigable-stream');
   //console.log(tweets);
-  var cards=tweets[0].childNodes;
+  var cards = tweets[0].childNodes;
   //console.log(cards);
-  for(var i=1;i<document.getElementsByClassName('card2 js-media-container').length;i++){
-    var info=new Array(5);
-    var tweet=cards[i];
+  for(var i = 1; i < document.getElementsByClassName('card2 js-media-container').length;i++){
+    var info = new Array(5);
+    var tweet = cards[i];
     //console.log(tweet);
-    //console.log(document.getElementsByClassName('js-tweet-text-container')[i].innerText);
-   //info[0]=document.getElementsByClassName('js-tweet-text-container')[i];
-    var text=document.getElementsByClassName('js-tweet-text-container')[i].innerText;
-    //info[0]=text;
-    info[1]=null;
-    info[2]=null;
-    // js-openLink u-block TwitterCardsGrid-col--12 TwitterCard-container TwitterCard-container--clickable SummaryCard--large
-    //TwitterCardsGrid-col--12 TwitterCardsGrid-col--spacerBottom CardContent
+    console.log(document.getElementsByClassName('js-tweet-text-container')[i].innerText);
+   info[0]=document.getElementsByClassName('js-tweet-text-container')[i];
+    var text = document.getElementsByClassName('js-tweet-text-container')[i].innerText;
+    info[0] = text;
+    info[1] = null;
+    info[2] = null;
+     js-openLink u-block TwitterCardsGrid-col--12 TwitterCard-container TwitterCard-container--clickable SummaryCard--large
+    TwitterCardsGrid-col--12 TwitterCardsGrid-col--spacerBottom CardContent
     //SummaryCard-content
-    info[3]=document.getElementsByClassName('card2 js-media-container')[i];
+    info[3] = document.getElementsByClassName('card2 js-media-container')[i];
 
     //console.log(info[3]);
     feed.add(info);
@@ -47,17 +47,17 @@ function twitterScrape(){
 }
 function redditScrape(){
   //master html table of all the cards
- var cards=document.getElementById('siteTable').getElementsByClassName('thing');
+ var cards = document.getElementById('siteTable').getElementsByClassName('thing');
  //console.log(cards);
  for(var i = 0; i < cards.length ; i++)
   {
     //array to hold info
-    var info=new Array(5);
+    var info = new Array(5);
     //console.log(cards[i]);
-    var text=cards[i].innerText;
+    var text = cards[i].innerText;
     //console.log(text);
-    var title="";
-    var website=text.substring(text.indexOf('(')+1,text.indexOf(')'));
+    var title = "";
+    var website = text.substring(text.indexOf('(')+1,text.indexOf(')'));
     //Deletes irrelevant lines
     text = text.substring(text.indexOf("\n") + 1);
     text = text.substring(text.indexOf("\n") + 1);
