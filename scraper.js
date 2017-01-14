@@ -125,6 +125,9 @@ function fbScrape() {
         //website
         if (cards[i].lastChild.lastElementChild.firstElementChild.firstChild !== null)
             info[3] = cards[i].lastChild.lastElementChild.firstElementChild.firstChild.data;
+        else {
+          info[3] = "";
+        }
 
         if (!feed.has(info)) {
             feed.add(info);
@@ -138,7 +141,13 @@ function fbScrape() {
 function determineValidity() {
     //loop through set
     for (let value of feed) {
-        var link = value[1];
+      console.log(typeof value[3]);
+        if((value[3] != "") || (typeof value[3] != "undefined")){
+          var link = value[3];
+        }
+        else {
+          var link = value[1];
+        }
         $.getJSON('https://veritas1.herokuapp.com/content/get/', {
             url: link
         }, function(data, jqXHR) {
@@ -152,7 +161,7 @@ function determineValidity() {
 }
 
 function HighlighterFb() {
-
+  //console.log(feed);
     var cards = document.getElementsByClassName('_6m3 _--6');
     var i = 0;
     for (let value of feed) {
@@ -164,13 +173,13 @@ function HighlighterFb() {
         x.append("" + title);
         x.id = 'id' + i;
         //Verified just gets veritas font. Subtle
-        for (var i = 0; i < value.length; i++) {
-            console.log(value[4]);
+
+        if (value[4] == "verified"){
+          x.style.background='green';
+
         }
-        if ("" + value[5] === "verified")
-            x.style.font = "veritas";
         //Not verified gets red highlight
-        else if ("" + value[5] === "unverified")
+        else if (value[4] == "unverified")
             x.style.background = "red";
         if ($('#id' + i).length === 0) {
             cards[i].childNodes[0].append(x);
@@ -191,6 +200,7 @@ $(document).ready(function() {
     if (currentUrl.includes("facebook")) {
         fbScrape();
         determineValidity();
+        console.log(feed);
     } else if (currentUrl.includes("reddit")) {
         redditScrape();
         determineValidity();
