@@ -126,7 +126,7 @@ function fbScrape() {
         if (cards[i].lastChild.lastElementChild.firstElementChild.firstChild !== null)
             info[3] = cards[i].lastChild.lastElementChild.firstElementChild.firstChild.data;
         else {
-            info[3] = "";
+          info[3] = "";
         }
 
         if (!feed.has(info)) {
@@ -141,11 +141,12 @@ function fbScrape() {
 function determineValidity() {
     //loop through set
     for (let value of feed) {
-        var link;
-        if (value[3] !== "") {
-            link = value[3];
-        } else {
-            link = value[1];
+      console.log(typeof value[3]);
+        if((value[3] != "") || (typeof value[3] != "undefined")){
+          var link = value[3];
+        }
+        else {
+          var link = value[1];
         }
         $.getJSON('https://veritas1.herokuapp.com/content/get/', {
             url: link
@@ -160,26 +161,31 @@ function determineValidity() {
 }
 
 function HighlighterFb() {
-    //console.log(feed);
+  //console.log(feed);
     var cards = document.getElementsByClassName('_6m3 _--6');
     var i = 0;
     for (let value of feed) {
         if (i >= cards.length)
             break;
         var x = document.createElement("H1");
-        var title = cards[i].childNodes[0].innerText;
+        var title = "" + cards[i].childNodes[0].innerText;
         cards[i].childNodes[0].innerText = "";
-        x.append("" + title);
         x.id = 'id' + i;
         //Verified just gets veritas font. Subtle
 
-        if (value[4] == "verified") {
-            x.style.background = 'green';
-
+        if (value[4] == "verified"){
+          x.style.color = "green";
+          x.style.fontSize = "16px";
+          x.style.fontFamily = "Tahoma";
         }
         //Not verified gets red highlight
-        else if (value[4] == "unverified")
-            x.style.background = "red";
+        else if (value[4] == "unverified"){
+            x.style.color = "red";
+            x.style.fontSize = "16px";
+            x.style.fontFamily = "Tahoma";
+          //  x.style.textAlign = "center";
+        }
+        x.append("" + title);
         if ($('#id' + i).length === 0) {
             cards[i].childNodes[0].append(x);
         }
