@@ -185,9 +185,49 @@ function HighlighterFb(){
 }
 
 function highlighterReddit(){
+	
+	// green for good
+	 if (value[4] == "verified"){
+          x.style.color = "green";
+          x.style.fontSize = "16px";
+          x.style.fontFamily = "Tahoma";
+        }
+        // red for bad
+        else if (value[4] == "unverified"){
+            x.style.color = "red";
+            x.style.fontSize = "16px";
+            x.style.fontFamily = "Tahoma";
+          //  x.style.textAlign = "center";
+        }
+        x.append("" + title);
+        if ($('#id' + i).length === 0) {
+            cards[i].childNodes[0].append(x);
+        }
+        i++;
+    }
 
 }
 function highlighterTwitter(){
+	
+	// green for good
+	 if (value[4] == "verified"){
+          x.style.color = "green";
+          x.style.fontSize = "16px";
+          x.style.fontFamily = "Tahoma";
+        }
+        // red for bad
+        else if (value[4] == "unverified"){
+            x.style.color = "red";
+            x.style.fontSize = "16px";
+            x.style.fontFamily = "Tahoma";
+          //  x.style.textAlign = "center";
+        }
+        x.append("" + title);
+        if ($('#id' + i).length === 0) {
+            cards[i].childNodes[0].append(x);
+        }
+        i++;
+    }
 
 }
 $(document).ready(function(){
