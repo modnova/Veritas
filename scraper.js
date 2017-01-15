@@ -147,10 +147,10 @@ function determineValidity() {
     //loop through set
     for (let value of feed) {
         var link;
-        if (value[3] !== "") {
-            link = value[3];
-        } else {
+        if (value[3] !== "" || value[3] === undefined) {
             link = value[1];
+        } else {
+            link = value[3];
         }
         $.getJSON('https://veritas1.herokuapp.com/content/get/', {
             url: link
