@@ -147,7 +147,7 @@ function determineValidity() {
     //loop through set
     for (let value of feed) {
         var link;
-        if (value[3] !== "" || value[3] === undefined) {
+        if (value[3] === "" || value[3] === undefined) {
             link = value[1];
         } else {
             link = value[3];
@@ -160,6 +160,8 @@ function determineValidity() {
             value[5] = (data.wotinfo);
             //CHECK TO SEE IF FACEBOOK
             HighlighterFb();
+        }, {
+            async: false
         });
 
     }
