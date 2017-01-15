@@ -6,6 +6,7 @@ Importany Article Information
 2:descr
 3:website
 4:verified/unverified
+5:WoT Info
 //5:This attribute will be used to determine whether a card has been evaluated or not  true / false
 */
 
@@ -155,7 +156,8 @@ function determineValidity() {
             url: link
         }, function(data, jqXHR) {
             // populate the last field in the array
-            value[4] = (data.response);
+            value[4] = (data.status);
+            value[5] = (data.wotinfo);
             //CHECK TO SEE IF FACEBOOK
             HighlighterFb();
         });
