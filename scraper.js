@@ -159,7 +159,11 @@ function determineValidity() {
             value[4] = (data.status);
             value[5] = (data.wotinfo);
             //CHECK TO SEE IF FACEBOOK
-            HighlighterFb();
+            if (currentUrl.includes("facebook")) {
+                highlighterFb();
+            } else if (currentUrl.includes("reddit")) {
+                highlighterReddit();
+            }
         }, {
             async: false
         });
@@ -167,7 +171,7 @@ function determineValidity() {
     }
 }
 
-function HighlighterFb() {
+function highlighterFb() {
     //console.log(feed);
     var cards = document.getElementsByClassName('_6m3 _--6');
     var i = 0;
@@ -200,11 +204,27 @@ function HighlighterFb() {
     }
 }
 
-function buttonMakerReddit() {
+function highlighterReddit() {
+    var i = 0;
+    var cards = document.getElementById('siteTable').getElementsByClassName('thing');
+    for (let value of feed) {
+        if (i >= cards.length) {
+            break;
+        }
+        cards[i].id = "veritas" + i;
+        if (value[4] == "verified") {
+            document.getElementById("veritas" + i).childNodes[4].childNodes[0].childNodes[0].style.color = "green";
 
+        }
+        //Not verified gets red highlight
+        else if (value[4] == "unverified") {
+          document.getElementById("veritas" + i).childNodes[4].childNodes[0].childNodes[0].style.color = "red";
+        }
+        i++;
+    }
 }
 
-function buttonMakerTwitter() {
+function highlighterTwitter() {
 
 }
 $(document).ready(function() {
@@ -216,7 +236,7 @@ $(document).ready(function() {
     } else if (currentUrl.includes("reddit")) {
         redditScrape();
         determineValidity();
-        //buttonMakerReddit();
+        highlighterReddit();
     } else if (currentUrl.includes("twitter")) {
         twitterScrape();
         determineValidity();
@@ -243,11 +263,11 @@ $(window).scrollEnd(function() {
     if (currentUrl.includes("facebook")) {
         fbScrape();
         determineValidity();
-        HighlighterFb();
+        highlighterFb();
     } else if (currentUrl.includes("reddit")) {
         redditScrape();
         determineValidity();
-        //buttonMakerReddit();
+        highlighterReddit();
     } else if (currentUrl.includes("twitter")) {
         twitterScrape();
         determineValidity();
