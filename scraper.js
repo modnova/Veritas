@@ -21,29 +21,14 @@ var feed = new Set();
 
 function twitterScrape() {
     var tweets = document.getElementsByClassName('stream-items js-navigable-stream');
-    //console.log(tweets);
     var cards = tweets[0].childNodes;
-    //console.log(cards);
-    for (var i = 1; i < document.getElementsByClassName('card2 js-media-container').length; i++) {
-        var info = new Array(5);
+    console.log(cards);
+    for (var i = 1; i < cards.length; i++) {
         var tweet = cards[i];
-        //console.log(tweet);
-        //console.log(document.getElementsByClassName('js-tweet-text-container')[i].innerText);
-        //info[0]=document.getElementsByClassName('js-tweet-text-container')[i];
-        var text = document.getElementsByClassName('js-tweet-text-container')[i].innerText;
-        //info[0]=text;
-        info[1] = null;
-        info[2] = null;
-        // js-openLink u-block TwitterCardsGrid-col--12 TwitterCard-container TwitterCard-container--clickable SummaryCard--large
-        //TwitterCardsGrid-col--12 TwitterCardsGrid-col--spacerBottom CardContent
-        //SummaryCard-content
-        if (cards[i].lastChild.lastElementChild.firstElementChild.firstChild !== null)
-            info[3] = cards[i].lastChild.lastElementChild.firstElementChild.firstChild.data;
-        else {
-            info[3] = "";
-        }
+        var iframe = document.getElementsByClassName('card2 js-media-container')[i].childNodes[0].childNodes[0];
+        var document = contents().find("body").html();
+        console.log(document);
 
-        //console.log(info[3]);
         feed.add(info);
 
     }
@@ -172,34 +157,42 @@ function determineValidity() {
 }
 
 function highlighterFb() {
-    //console.log(feed);
     var cards = document.getElementsByClassName('_6m3 _--6');
     var i = 0;
     for (let value of feed) {
         if (i >= cards.length)
             break;
+
+        var verification = false;
+        if (value[4] == "verified" && (value[5] == "excellent" || value[5] == "good")) {
+            verification = true;
+        } else {
+            verification = false;
+        }
         var x = document.createElement("H1");
         var title = "" + cards[i].childNodes[0].innerText;
         cards[i].childNodes[0].innerText = "";
         x.id = 'id' + i;
-        //Verified just gets veritas font. Subtle
 
-        if (value[4] == "verified") {
+
+        //Green Highlight for verified
+        if (verification) {
             x.style.color = "green";
             x.style.fontSize = "16px";
             x.style.fontFamily = "Tahoma";
         }
         //Not verified gets red highlight
-        else if (value[4] == "unverified") {
+        else {
             x.style.color = "red";
             x.style.fontSize = "16px";
             x.style.fontFamily = "Tahoma";
-            //  x.style.textAlign = "center";
         }
         x.append("" + title);
+
         if ($('#id' + i).length === 0) {
             cards[i].childNodes[0].append(x);
         }
+
         i++;
     }
 }
@@ -218,7 +211,7 @@ function highlighterReddit() {
         }
         //Not verified gets red highlight
         else if (value[4] == "unverified") {
-          document.getElementById("veritas" + i).childNodes[4].childNodes[0].childNodes[0].style.color = "red";
+            document.getElementById("veritas" + i).childNodes[4].childNodes[0].childNodes[0].style.color = "red";
         }
         i++;
     }
