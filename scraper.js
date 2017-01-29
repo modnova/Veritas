@@ -21,31 +21,23 @@ var feed = new Set();
 
 function twitterScrape() {
     var info = new Array(5);
-    var content = document.getElementsByClassName('content');
-    var container;
+    var frames = window.frames;
     var iframe;
-    var iframeDocument;
-    for (var i = 0; i < content.length; i++) {
-        if (typeof content[i].childNodes[5] !== 'undefined') {
-            container = content[i].childNodes[5];
-        } else {
-            container = undefined;
-        }
-
-        if (typeof container != 'undefined') {
-            //console.log(container);
-            iframe = container.firstElementChild;
-            //console.log(iframe);
-            if(iframe !== null && typeof iframe !== 'undefined' ){
-              //iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-              console.log(iframe);
-            }
-            //console.log(iframeDocument);
+    var link;
+    for (var i = 0; i < frames.length; i++) {
+        iframe = frames[i].frameElement;
+        iframe = iframe.contentDocument || iframe.contentWindow.document;
+        //console.log(iframe);
+        link = iframe.getElementsByClassName('SummaryCard-content')[0];
+        if (typeof link != 'undefined') {
+            console.log(link);
+            //link = link.childNodes[3];
+            link = link.getElementsByClassName('u-block TwitterCardsGrid-col--spacerTop SummaryCard-destination')[0];
+            console.log(link.innerText);
+            info[1] = link;
         }
 
     }
-
-
 
     feed.add(info);
 }
