@@ -20,20 +20,34 @@ var feed = new Set();
 
 
 function twitterScrape() {
-    var tweets = document.getElementsByClassName('stream-items js-navigable-stream');
-    var cards = tweets[0].childNodes;
-    console.log(tweets);
-    for (var i = 1; i < cards.length; i++) {
-        var tweet = cards[i];
-        var iframe = document.getElementsByClassName('card2 js-media-container')[i].childNodes[0].childNodes[0];
-        var documentthing = contents().find("body").html();
-        console.log(documentthing);
+    var info = new Array(5);
+    var content = document.getElementsByClassName('content');
+    var container;
+    var iframe;
+    var iframeDocument;
+    for (var i = 0; i < content.length; i++) {
+        if (typeof content[i].childNodes[5] !== 'undefined') {
+            container = content[i].childNodes[5];
+        } else {
+            container = undefined;
+        }
 
-        feed.add(info);
+        if (typeof container != 'undefined') {
+            //console.log(container);
+            iframe = container.firstElementChild;
+            //console.log(iframe);
+            if(iframe !== null && typeof iframe !== 'undefined' ){
+              //iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+              console.log(iframe);
+            }
+            //console.log(iframeDocument);
+        }
 
     }
-    console.log(feed);
 
+
+
+    feed.add(info);
 }
 
 function redditScrape() {
