@@ -22,12 +22,12 @@ var feed = new Set();
 function twitterScrape() {
     var tweets = document.getElementsByClassName('stream-items js-navigable-stream');
     var cards = tweets[0].childNodes;
-    console.log(cards);
+    console.log(tweets);
     for (var i = 1; i < cards.length; i++) {
         var tweet = cards[i];
         var iframe = document.getElementsByClassName('card2 js-media-container')[i].childNodes[0].childNodes[0];
-        var document = contents().find("body").html();
-        console.log(document);
+        var documentthing = contents().find("body").html();
+        console.log(documentthing);
 
         feed.add(info);
 
