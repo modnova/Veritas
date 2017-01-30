@@ -20,11 +20,11 @@ var feed = new Set();
 
 
 function twitterScrape() {
-    var info = new Array(5);
     var frames = window.frames;
     var iframe;
     var link;
     for (var i = 0; i < frames.length; i++) {
+        var info = new Array(5);
         iframe = frames[i].frameElement;
         iframe = iframe.contentDocument || iframe.contentWindow.document;
         //console.log(iframe);
@@ -34,12 +34,17 @@ function twitterScrape() {
             //link = link.childNodes[3];
             link = link.getElementsByClassName('u-block TwitterCardsGrid-col--spacerTop SummaryCard-destination')[0];
             console.log(link.innerText);
-            info[1] = link;
+            info[0] = null;
+            info[1] = link.innerText;
+            info[2] = null;
+            info[3] = link.innerText;
+            info[4] = null;
         }
 
     }
 
     feed.add(info);
+    console.log(feed);
 }
 
 function redditScrape() {
@@ -154,6 +159,8 @@ function determineValidity() {
                 highlighterFb();
             } else if (currentUrl.includes("reddit")) {
                 highlighterReddit();
+            } else if (currentUrl.includes("twitter")) {
+                highlighterTwitter();
             }
         }, {
             async: false
@@ -182,7 +189,7 @@ function highlighterFb() {
 
 
         //Green Highlight for verified
-        if (verification) {
+        if (value[4] == "verified" && (value[5] == "excellent" || value[5] == "good")) {
             x.style.color = "green";
             x.style.fontSize = "16px";
             x.style.fontFamily = "Tahoma";
@@ -225,7 +232,29 @@ function highlighterReddit() {
 
 function highlighterTwitter() {
 
+    var frames = window.frames;
+    var iframe;
+    var i = 0;
+    for (let value of feed) {
+        iframe = frames[i].frameElement;
+        iframe = iframe.contentDocument || iframe.contentWindow.document;
+        console.log(value[4]);
+        console.log(value[4] == "verified");
+        if (value[4] == "verified") {
+
+            iframe.getElementsByTagName('head')[0].append('<link rel="stylesheet" type="text/css" href="twitter_style.css">');
+        } else {
+            //iframe.getElementsByTagName('head')[0].append('<link rel="stylesheet" type="text/css" href="twitter_style_unverified.css">');
+        }
+        i++;
+    }
+
 }
+
+
+
+
+
 $(document).ready(function() {
     //fills the feed
     if (currentUrl.includes("facebook")) {
@@ -239,7 +268,7 @@ $(document).ready(function() {
     } else if (currentUrl.includes("twitter")) {
         twitterScrape();
         determineValidity();
-        //buttonMakerTwitter();
+        highlighterTwitter();
     }
 });
 
@@ -270,6 +299,6 @@ $(window).scrollEnd(function() {
     } else if (currentUrl.includes("twitter")) {
         twitterScrape();
         determineValidity();
-        //buttonMakerTwitter();
+        highlighterTwitter();
     }
 }, 1000);
